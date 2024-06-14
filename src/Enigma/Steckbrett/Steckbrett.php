@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace HaeckseSarah\Enigma\Steckbrett;
 
+use HaeckseSarah\Enigma\Exception\InvalidCableException;
+
 /**
  * Steckbrett.
  */
@@ -54,7 +56,7 @@ class Steckbrett implements SteckbrettInterface
     public function removeCable(Cable $cable): void
     {
         if (!array_key_exists($cable->getA(), $this->cableMap) || !array_key_exists($cable->getB(), $this->cableMap)) {
-            throw new \InvalidArgumentException('Cable '.(string) $cable.' not found');
+            throw new InvalidCableException('Cable '.(string) $cable.' not found');
         }
         unset($this->cables[$this->cableMap[$cable->getA()]]);
         unset($this->cableMap[$cable->getA()]);
