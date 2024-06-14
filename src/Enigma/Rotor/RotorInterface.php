@@ -7,22 +7,12 @@ namespace HaeckseSarah\Enigma\Rotor;
 /**
  * Single Rotor.
  */
-interface RotorInterface extends \Iterator
+interface RotorInterface extends \Iterator, \ArrayAccess
 {
     /**
      * get Rotator Type.
      */
     public function getType(): string;
-
-    /**
-     * process character from left to right.
-     */
-    public function left(int $index): int;
-
-    /**
-     * process character from right to left.
-     */
-    public function right(int $index): int;
 
     /**
      * set current rotation.

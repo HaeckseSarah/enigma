@@ -44,21 +44,21 @@ class RotorTest extends Unit
         $rotor = $this->buildTestRotor();
         $rotor->rewind();
         $this->assertEquals(0, $rotor->current());
-        $this->assertEquals(24, $rotor->left(12));
-        $this->assertEquals(12, $rotor->right(24));
+        $this->assertEquals(24, $rotor[12]['right']);
+        $this->assertEquals(12, $rotor[24]['left']);
 
         $rotor->setOffset(1);
-        $this->assertEquals(22, $rotor->left(12));
-        $this->assertEquals(12, $rotor->right(22));
+        $this->assertEquals(22, $rotor[12]['right']);
+        $this->assertEquals(12, $rotor[22]['left']);
 
         $rotor->setOffset(8);
         $this->assertEquals(8, $rotor->current());
-        $this->assertEquals(24, $rotor->left(12));
-        $this->assertEquals(12, $rotor->right(24));
+        $this->assertEquals(24, $rotor[12]['right']);
+        $this->assertEquals(12, $rotor[24]['left']);
 
         $rotor->setOffset(24);
-        $this->assertEquals(18, $rotor->left(12));
-        $this->assertEquals(12, $rotor->right(18));
+        $this->assertEquals(18, $rotor[12]['right']);
+        $this->assertEquals(12, $rotor[18]['left']);
     }
 
     public function testSetOffset()
@@ -129,22 +129,22 @@ class RotorTest extends Unit
         $this->assertEquals(0, $rotor->__toArray()['ringPosition']);
 
         $rotor->setOffset(12);
-        $this->assertEquals(15, $rotor->left(10));
-        $this->assertEquals(10, $rotor->right(15));
+        $this->assertEquals(15, $rotor[10]['right']);
+        $this->assertEquals(10, $rotor[15]['left']);
 
         $rotor = $this->buildTestRotor(null, null, null, 1);
         $this->assertEquals(1, $rotor->__toArray()['ringPosition']);
 
         $rotor->setOffset(2);
-        $this->assertEquals(24, $rotor->left(10));
-        $this->assertEquals(10, $rotor->right(24));
+        $this->assertEquals(24, $rotor[10]['right']);
+        $this->assertEquals(10, $rotor[24]['left']);
 
         $rotor = $this->buildTestRotor(null, null, null, 22);
         $this->assertEquals(22, $rotor->__toArray()['ringPosition']);
 
         $rotor->setOffset(11);
-        $this->assertEquals(4, $rotor->left(8));
-        $this->assertEquals(8, $rotor->right(4));
+        $this->assertEquals(4, $rotor[8]['right']);
+        $this->assertEquals(8, $rotor[4]['left']);
     }
 
     public function testInvalidRingPosition()

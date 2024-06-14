@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace HaeckseSarah\Enigma\Rotor;
 
 use HaeckseSarah\Enigma\Exception\InvalidRingPositionException;
+use HaeckseSarah\Enigma\Exception\NotImplementedException;
 use HaeckseSarah\Enigma\Lib\Collection;
 use HaeckseSarah\Enigma\Lib\CollectionInterface;
 
@@ -70,26 +71,6 @@ class Rotor implements RotorInterface
     }
 
     /**
-     * process character from left to right.
-     *
-     * todo validate input
-     */
-    public function left(int $index): int
-    {
-        return $this->calculateOutput($index, 'ltr');
-    }
-
-    /**
-     * process character from right to left.
-     *
-     * todo validate input
-     */
-    public function right(int $index): int
-    {
-        return $this->calculateOutput($index, 'rtl');
-    }
-
-    /**
      * process character.
      */
     private function calculateOutput(int $index, string $map): int
@@ -110,6 +91,29 @@ class Rotor implements RotorInterface
     public function setOffset(int $offset): void
     {
         $this->offset = normalizeIndex($offset);
+    }
+
+    public function offsetSet(mixed $offset, mixed $value): void
+    {
+        throw new NotImplementedException();
+    }
+
+    public function offsetUnset(mixed $offset): void
+    {
+        throw new NotImplementedException();
+    }
+
+    public function offsetExists(mixed $offset): bool
+    {
+        return true;
+    }
+
+    public function offsetGet($key)
+    {
+        return [
+            'left' => $this->calculateOutput($key, 'rtl'),
+            'right' => $this->calculateOutput($key, 'ltr'),
+        ];
     }
 
     /**

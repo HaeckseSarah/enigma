@@ -62,7 +62,7 @@ class Walzenwerk implements WalzenwerkInterface
 
         // Rotors from right to left
         for ($i = $this->rotors->count() - 1; $i >= 0; --$i) {
-            $index = $this->rotors[$i]->right($index);
+            $index = $this->rotors[$i][$index]['left'];
         }
 
         // UKW
@@ -70,7 +70,7 @@ class Walzenwerk implements WalzenwerkInterface
 
         // Rotors from left to right
         for ($i = 0; $i < $this->rotors->count(); ++$i) {
-            $index = $this->rotors[$i]->left($index);
+            $index = $this->rotors[$i][$index]['right'];
         }
 
         // ETW

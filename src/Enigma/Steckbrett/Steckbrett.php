@@ -78,7 +78,9 @@ class Steckbrett implements SteckbrettInterface
      */
     public function __toArray(): array
     {
-        return $this->cables->map(function ($cable) {return (string) $cable; })->__toArray();
+        return $this->cables
+                    ->map(fn ($cable) => (string) $cable)
+                    ->__toArray();
     }
 
     /**
