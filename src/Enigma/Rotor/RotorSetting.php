@@ -13,14 +13,14 @@ class RotorSetting
     private $rotation;
     private $ringPosition;
 
-    public function __construct($type, $rotation = 'A', $ringPosition = 0)
+    public function __construct(string $type, string $rotation = 'A', int $ringPosition = 0)
     {
         $this->setType($type);
         $this->setRotation($rotation);
         $this->setRingPosition($ringPosition);
     }
 
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
@@ -30,22 +30,22 @@ class RotorSetting
         $this->type = $type;
     }
 
-    public function getRotation()
+    public function getRotation(): string
     {
         return $this->rotation;
     }
 
-    public function setRotation($rotation)
+    public function setRotation(string $rotation)
     {
         $this->rotation = strtoupper($rotation);
     }
 
-    public function getRingPosition()
+    public function getRingPosition(): int
     {
         return $this->ringPosition;
     }
 
-    public function setRingPosition($ringPosition)
+    public function setRingPosition(int $ringPosition)
     {
         $this->ringPosition = $ringPosition;
     }

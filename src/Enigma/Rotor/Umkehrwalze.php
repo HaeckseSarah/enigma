@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace HaeckseSarah\Enigma\Rotor;
 
+use HaeckseSarah\Enigma\Lib\Collection;
+use HaeckseSarah\Enigma\Lib\CollectionInterface;
+
 class Umkehrwalze implements UmkehrwalzeInterface
 {
     protected $type = '';
@@ -12,10 +15,10 @@ class Umkehrwalze implements UmkehrwalzeInterface
     /**
      * Constructor.
      *
-     * @param array  $mapping Rotator character map
-     * @param string $type    Rotator Type - presentation only, has no effect on processing
+     * @param CollectionInterface $mapping Rotator character map
+     * @param string              $type    Rotator Type - presentation only, has no effect on processing
      */
-    public function __construct(array $mapping, string $type = '')
+    public function __construct(CollectionInterface $mapping, string $type = '')
     {
         $this->map = $this->calculateMappings($mapping);
         $this->type = $type;
@@ -24,9 +27,9 @@ class Umkehrwalze implements UmkehrwalzeInterface
     /**
      * convert char-to-char map into indexed format.
      */
-    private function calculateMappings(array $mapping): array
+    private function calculateMappings(CollectionInterface $mapping): CollectionInterface
     {
-        $result = [];
+        $result = new Collection();
 
         foreach ($mapping as $k => $v) {
             $a = charToIndex($k);

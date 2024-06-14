@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace HaeckseSarah\Enigma\Interface\Cli\Ui;
 
+use HaeckseSarah\Enigma\Lib\Collection;
+
 /**
  * graphical element, to show history of inserted characters and their decoded value.
  */
@@ -36,9 +38,9 @@ class History
      */
     private function clearBuffer(): void
     {
-        $this->buffer = [];
+        $this->buffer = new Collection();
         for ($i = 1; $i <= $this->bufferSize; ++$i) {
-            $this->buffer[] = [];
+            $this->buffer[] = new Collection();
         }
     }
 
@@ -96,7 +98,7 @@ class History
             $this->curCol = 1;
             ++$this->curRow;
             if ($this->curRow >= $this->bufferSize) {
-                array_shift($this->buffer);
+                $this->buffer->shift();
                 $this->curRow = $this->bufferSize - 1;
                 $this->printBuffer();
             }

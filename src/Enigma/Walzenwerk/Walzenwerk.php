@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace HaeckseSarah\Enigma\Walzenwerk;
 
+use HaeckseSarah\Enigma\Lib\Collection;
 use HaeckseSarah\Enigma\Rotor\RotorInterface;
 use HaeckseSarah\Enigma\Rotor\UmkehrwalzeInterface;
 
@@ -19,7 +20,7 @@ class Walzenwerk implements WalzenwerkInterface
     public function __construct(UmkehrwalzeInterface $ukw, RotorInterface ...$rotors)
     {
         $this->ukw = $ukw;
-        $this->rotors = $rotors;
+        $this->rotors = new Collection($rotors);
     }
 
     /**
@@ -60,7 +61,7 @@ class Walzenwerk implements WalzenwerkInterface
         $index = charToIndex($char);
 
         // Rotors from right to left
-        for ($i = count($this->rotors) - 1; $i >= 0; --$i) {
+        for ($i = $this->rotors->count() - 1; $i >= 0; --$i) {
             $index = $this->rotors[$i]->right($index);
         }
 
@@ -68,7 +69,7 @@ class Walzenwerk implements WalzenwerkInterface
         $index = ($this->ukw)($index);
 
         // Rotors from left to right
-        for ($i = 0; $i < count($this->rotors); ++$i) {
+        for ($i = 0; $i < $this->rotors->count(); ++$i) {
             $index = $this->rotors[$i]->left($index);
         }
 
@@ -83,7 +84,7 @@ class Walzenwerk implements WalzenwerkInterface
      */
     private function rotate($doubleStep = true): void
     {
-        for ($i = count($this->rotors) - 1; $i >= 0; --$i) {
+        for ($i = $this->rotors->count() - 1; $i >= 0; --$i) {
             $this->rotors[$i]->next();
 
             // doublestep
@@ -104,7 +105,7 @@ class Walzenwerk implements WalzenwerkInterface
     {
         return [
             'ukw' => $this->ukw->__toArray(),
-            'rotors' => array_map(function ($rotor) {return $rotor->__toArray(); }, $this->rotors),
+            'rotors' => $this->rotors->map(function ($rotor) {return $rotor->__toArray(); }),
         ];
     }
 

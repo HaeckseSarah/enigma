@@ -6,6 +6,8 @@ namespace HaeckseSarah\AoC\Tests;
 
 use Codeception\Test\Unit;
 use HaeckseSarah\Enigma\Exception\InvalidRingPositionException;
+use HaeckseSarah\Enigma\Lib\Collection;
+use HaeckseSarah\Enigma\Lib\CollectionInterface;
 use HaeckseSarah\Enigma\Rotor\Rotor;
 
 class RotorTest extends Unit
@@ -15,16 +17,16 @@ class RotorTest extends Unit
          A  B  C  D  E  F  G  H  I  J  K  L  M  N  O  P  Q  R  S  T  U  V  W  X  Y  Z
         00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
     */
-    protected function buildTestRotor(?array $map = null, ?array $pins = null, ?string $type = null, ?int $ringPosition = null)
+    protected function buildTestRotor(?CollectionInterface $map = null, ?CollectionInterface $pins = null, ?string $type = null, ?int $ringPosition = null)
     {
-        return new Rotor($map ?? [
+        return new Rotor($map ?? new Collection([
             'A' => 'Q', 'B' => 'W', 'C' => 'E', 'D' => 'R', 'E' => 'T',
             'F' => 'Z', 'G' => 'U', 'H' => 'I', 'I' => 'O', 'J' => 'A',
             'K' => 'S', 'L' => 'D', 'M' => 'F', 'N' => 'G', 'O' => 'H',
             'P' => 'J', 'Q' => 'K', 'R' => 'P', 'S' => 'Y', 'T' => 'X',
             'U' => 'C', 'V' => 'V', 'W' => 'B', 'X' => 'N', 'Y' => 'M',
-            'Z' => 'L', ],
-            $pins ?? [25],// z
+            'Z' => 'L', ]),
+            $pins ?? new Collection([25]),// z
             $type ?? '',
             $ringPosition ?? 0
         );
@@ -109,7 +111,7 @@ class RotorTest extends Unit
 
     public function testIsPin()
     {
-        $rotor = $this->buildTestRotor(null, [8, 15, 25]);
+        $rotor = $this->buildTestRotor(null, new Collection([8, 15, 25]));
         $rotor->setOffset(8);
         $this->assertFalse($rotor->isPin());
         $this->assertTrue($rotor->isPin(1));

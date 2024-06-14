@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace HaeckseSarah\Enigma\Rotor\Definitions;
 
+use HaeckseSarah\Enigma\Lib\CollectionInterface;
+
 /**
  * rotor definition.
  */
@@ -17,10 +19,10 @@ interface DefinitionInterface
     /**
      * get rotor mapping.
      */
-    public function getMap(): array;
+    public function getMap(): CollectionInterface;
 
     /**
      * get rotor pins.
      */
-    public function getPins(): array;
+    public function getPins(): CollectionInterface;
 }

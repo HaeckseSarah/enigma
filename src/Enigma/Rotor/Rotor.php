@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace HaeckseSarah\Enigma\Rotor;
 
 use HaeckseSarah\Enigma\Exception\InvalidRingPositionException;
+use HaeckseSarah\Enigma\Lib\Collection;
+use HaeckseSarah\Enigma\Lib\CollectionInterface;
 
 /**
  * Single Rotor.
@@ -21,12 +23,12 @@ class Rotor implements RotorInterface
     /**
      * Constructor.
      *
-     * @param array  $mapping      Rotator character map
-     * @param array  $pins         Pin configuration
-     * @param string $type         Rotator Type - presentation only, has no effect on processing
-     * @param int    $ringPosition Ring position
+     * @param CollectionInterface $mapping      Rotator character map
+     * @param CollectionInterface $pins         Pin configuration
+     * @param string              $type         Rotator Type - presentation only, has no effect on processing
+     * @param int                 $ringPosition Ring position
      */
-    public function __construct(array $mapping, array $pins, string $type = '', $ringPosition = 0)
+    public function __construct(CollectionInterface $mapping, CollectionInterface $pins, string $type = '', $ringPosition = 0)
     {
         $this->offset = 0;
         $this->type = $type;
@@ -45,21 +47,18 @@ class Rotor implements RotorInterface
     /**
      * convert char-to-char map into indexed format.
      */
-    private function calculateMappings(array $mapping): array
+    private function calculateMappings(CollectionInterface $mapping): CollectionInterface
     {
         $result = ['ltr' => [], 'rtl' => []];
 
         for ($i = 0; $i < 26; ++$i) {
             $letter = indexToChar($i);
             $result['rtl'][$i] = charToIndex($mapping[$letter]);
-            if (!array_search($letter, $mapping)) {
-                var_dump($letter, $mapping, $this);
-                exit;
-            }
-            $result['ltr'][$i] = charToIndex(array_search($letter, $mapping));
+
+            $result['ltr'][$i] = charToIndex($mapping->search($letter));
         }
 
-        return $result;
+        return new Collection($result);
     }
 
     /**
@@ -170,20 +169,20 @@ class Rotor implements RotorInterface
     {
         $p = normalizeIndex($this->current() - 1 + $offset);
 
-        return in_array($p, $this->pins);
+        return $this->pins->has($p);
     }
 
     /**
      * calculate new map for ringstellung.
      */
-    protected function shiftMap(array $mapping, int $pos): array
+    protected function shiftMap(Collection $mapping, int $pos): CollectionInterface
     {
         $newMap = [];
         foreach ($mapping as $l => $r) {
             $newMap[indexToChar(normalizeIndex(charToIndex($l) + $pos))] = indexToChar(normalizeIndex(charToIndex($r) + $pos));
         }
 
-        return $newMap;
+        return new Collection($newMap);
     }
 
     /**

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace HaeckseSarah\Enigma\Steckbrett;
 
 use HaeckseSarah\Enigma\Exception\InvalidCableException;
+use HaeckseSarah\Enigma\Lib\Collection;
 
 /**
  * Steckbrett.
@@ -27,8 +28,8 @@ class Steckbrett implements SteckbrettInterface
      */
     public function reset(): void
     {
-        $this->cables = [];
-        $this->cableMap = [];
+        $this->cables = new Collection();
+        $this->cableMap = new Collection();
     }
 
     /**
@@ -37,7 +38,7 @@ class Steckbrett implements SteckbrettInterface
     public function addCable(Cable $cable): void
     {
         $this->cables[] = $cable;
-        $i = array_key_last($this->cables);
+        $i = $this->cables->lastKey();
         $this->cableMap[$cable->getA()] = $i;
         $this->cableMap[$cable->getB()] = $i;
     }
@@ -55,9 +56,10 @@ class Steckbrett implements SteckbrettInterface
      */
     public function removeCable(Cable $cable): void
     {
-        if (!array_key_exists($cable->getA(), $this->cableMap) || !array_key_exists($cable->getB(), $this->cableMap)) {
+        if (!$this->cableMap->offsetExists($cable->getA()) || !$this->cableMap->offsetExists($cable->getB())) {
             throw new InvalidCableException('Cable '.(string) $cable.' not found');
         }
+
         unset($this->cables[$this->cableMap[$cable->getA()]]);
         unset($this->cableMap[$cable->getA()]);
         unset($this->cableMap[$cable->getB()]);
@@ -76,7 +78,7 @@ class Steckbrett implements SteckbrettInterface
      */
     public function __toArray(): array
     {
-        return array_map(function ($cable) {return (string) $cable; }, $this->cables);
+        return $this->cables->map(function ($cable) {return (string) $cable; })->__toArray();
     }
 
     /**

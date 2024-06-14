@@ -181,7 +181,7 @@ class Ui
     {
         UiHelper::resetColor();
         UiHelper::showCursor();
-        UiHelper::clearScreen();
+        // UiHelper::clearScreen();
     }
 
     /**

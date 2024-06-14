@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace HaeckseSarah\Enigma\Rotor\Definitions;
 
+use HaeckseSarah\Enigma\Lib\Collection;
+use HaeckseSarah\Enigma\Lib\CollectionInterface;
+
 /**
  * Rotor definition.
  */
@@ -24,16 +27,16 @@ abstract class Definition implements DefinitionInterface
     /**
      * get rotor mapping.
      */
-    public function getMap(): array
+    public function getMap(): CollectionInterface
     {
-        return $this->map;
+        return new Collection($this->map);
     }
 
     /**
      * get rotor pins.
      */
-    public function getPins(): array
+    public function getPins(): CollectionInterface
     {
-        return $this->pins;
+        return new Collection($this->pins);
     }
 }
